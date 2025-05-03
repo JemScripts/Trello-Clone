@@ -14,8 +14,16 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
 const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
+
 db.boards = Board(sequelize, Sequelize);
 db.columns = Column(sequelize, Sequelize);
 db.cards = Card(sequelize, Sequelize);
+
+Board.associate = (models) => {
+    Board.hasMany(models.Column, { foreignKey: 'boardId' });
+};
+
+Column.associate(db);
+Card.associate(db);
 
 export default db;

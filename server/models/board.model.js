@@ -8,8 +8,21 @@ export default (sequelize, Sequelize) => {
             type: Sequelize.STRING,
             allowNull: true,
         },
+        userId: {
+            type: Sequelize.INTEGER,
+            allowNull: false,
+        }
     }, {
         timestamps: true,
     });
+
+    Board.associate = (models) => {
+        Board.belongsTo(models.User, {
+            foreignKey: 'userId',
+            onDelete: 'CASCADE',
+        });
+        Board.hasMany(models.Column, { foreignKey: 'boardId' });
+    };
+
     return Board;
 };
