@@ -4,6 +4,9 @@ import Board from "./models/board.model.js";
 import Column from "./models/column.model.js";
 import Card from "./models/card.model.js";
 import User from "./models/user.model.js";
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
     host: dbConfig.HOST,
