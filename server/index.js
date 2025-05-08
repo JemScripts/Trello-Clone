@@ -21,27 +21,11 @@ db.boards = Board(sequelize, Sequelize);
 db.columns = Column(sequelize, Sequelize);
 db.cards = Card(sequelize, Sequelize);
 
-User.associate = (models) => {
-    User.hasMany(models.Board, { foreignKey: 'userId' });
-    User.hasMany(models.Column, { foreignKey: 'userId' });
-    User.hasMany(models.Card, { foreignKey: 'userId' });
-}
-
-Board.associate = (models) => {
-    Board.hasMany(models.User, { foreignKey: 'userId' });
-    Board.hasMany(models.Column, { foreignKey: 'boardId' });
-};
-
-Column.associate = (models) => {
-    Column.belongsTo(models.User, { foreignKey: 'userId' });
-    Column.belongsTo(models.Board, { foreignKey: 'boardId' });
-    Column.belongsTo(models.Card, { foreignKey: 'columnId' });
-}
-
-Card.associate = (models) => {
-    Card.belongsTo(models.User, { foreignKey: 'userId' });
-    Card.belongsTo(models.Column, { foreignKey: 'columnId' });
-}
+Object.keys(db).forEach(modelName => {
+    if (db[modelName].associate) {
+        db[modelName].associate(db);
+    }
+});
 
 
 export default db;

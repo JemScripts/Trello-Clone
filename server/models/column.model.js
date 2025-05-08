@@ -1,4 +1,4 @@
-export default (Sequelize, sequelize) => {
+export default (sequelize, Sequelize) => {
     const Column = sequelize.define("column", {
         title: {
             type: Sequelize.STRING,
@@ -13,10 +13,6 @@ export default (Sequelize, sequelize) => {
     });
 
     Column.associate = (models) => {
-        Column.belongsTo(models.User, {
-            foreignKey: 'userId',
-            onDelete: 'CASCADE',
-        });
         Column.belongsTo(models.Board, {
             foreignKey: 'boardId',
             onDelete: 'CASCADE',
