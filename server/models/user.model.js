@@ -36,7 +36,7 @@ export default (sequelize, Sequelize) => {
     });
 
     User.associate = (models) => {
-        User.hasMany(models.Board, { foreignKey: 'userId'});
+        User.hasMany(models.boards, { foreignKey: 'userId'});
     };
 
     return User;

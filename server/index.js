@@ -24,9 +24,9 @@ db.boards = Board(sequelize, Sequelize);
 db.columns = Column(sequelize, Sequelize);
 db.cards = Card(sequelize, Sequelize);
 
-Object.keys(db).forEach(modelName => {
-    if (db[modelName].associate) {
-        db[modelName].associate(db);
+Object.values(db).forEach(modelName => {
+    if (modelName.associate) {
+        modelName.associate(db);
     }
 });
 

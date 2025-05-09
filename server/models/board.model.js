@@ -17,11 +17,11 @@ export default (sequelize, Sequelize) => {
     });
 
     Board.associate = (models) => {
-        Board.belongsTo(models.User, {
+        Board.belongsTo(models.users, {
             foreignKey: 'userId',
             onDelete: 'CASCADE',
         });
-        Board.hasMany(models.Column, { foreignKey: 'boardId' });
+        Board.hasMany(models.columns, { foreignKey: 'boardId' });
     };
 
     return Board;

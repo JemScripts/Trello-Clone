@@ -21,7 +21,7 @@ export default (sequelize, Sequelize) => {
     });
 
     Card.associate = (models) => {
-        Card.belongsTo(models.Column, {
+        Card.belongsTo(models.columns, {
             foreignKey: 'columnId',
             onDelete: 'CASCADE',
         });
