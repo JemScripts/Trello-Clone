@@ -20,9 +20,6 @@ export const AuthProvider = ({children}) => {
         const data = await userService.login(email, password);
 
         setUser(data.user);
-        
-        localStorage.setItem("user", JSON.stringify(data.user));
-        localStorage.setItem("token", data.token);
 
         return data;
     };
