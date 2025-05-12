@@ -16,20 +16,27 @@ const register = (username, email, password) => {
 };
 
 const login = async (email, password) => {
-    const response = await http.post("/users/login", {
-        email,
-        password,
-    });
+    try {
 
-    if(response.data.token && response.data.user) {
-        localStorage.setItem("user", JSON.stringify(response.data.user));
-        localStorage.setItem("token", response.data.token);
+        const response = await http.post("/users/login", {
+            email,
+            password,
+        });
+        
+        if(response.data.token && response.data.user) {
+            localStorage.setItem("user", JSON.stringify(response.data.user));
+            localStorage.setItem("token", response.data.token);
 
-        return response.data;
-    } else {
-        console.error("Login failed.", response.data);
-        return null;
+            return response.data;
+        } else {
+            throw new Error("Invalid login response.");
+        }
+
+    } catch (err) {
+        const message = err.response?.data?.message || "Login failed.";
+        throw new Error(message);
     }
+
 };
 
 const logout = () => {
@@ -51,7 +58,7 @@ const getUser = () => {
 const getProfile = () => {
     const user = getUser();
 
-    return http.get("/me",
+    return http.get("/users/me",
         {
             headers: { Authorization: `Bearer ${user?.token}`, }
         }

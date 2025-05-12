@@ -9,6 +9,7 @@ export const Register = () => {
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const [success, setSuccess] = useState(null);
+    const [loading, setLoading] = useState(null);
     const navigate = useNavigate();
 
     const { user } = useAuth();
@@ -21,6 +22,12 @@ export const Register = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setError("");
+        setLoading(true);
+
+        if(!email.trim()) return setError("Email is required.");
+        if(!username.trim()) return setError("Username is required.");
+        if(password.length < 6) return setError("Password must be at least 6 characters.");
 
         try {
             await userService.register(username, email, password);
@@ -28,6 +35,8 @@ export const Register = () => {
             setTimeout(() => navigate("/login"), 1500);
         } catch (err) {
             setError(err.response?.data?.message || "Registration failed.");
+        } finally {
+            setLoading(false);
         }
     };
     
@@ -41,6 +50,7 @@ export const Register = () => {
                     value={username}
                     onChange={(e) => {
                         setUsername(e.target.value);
+                        setLoading(false);
                         setError("");
                     }}
                 />
@@ -50,6 +60,7 @@ export const Register = () => {
                     value={email}
                     onChange={(e) => {
                       setEmail(e.target.value);
+                      setLoading(false);
                       setError("");
                     }}
                 />
@@ -58,11 +69,12 @@ export const Register = () => {
                     placeholder="Password"
                     value={password}
                     onChange={(e) => {
-                        setPassword(e.target.value)
+                        setPassword(e.target.value);
+                        setLoading(false);
                         setError("");
                     }}
                 />
-                <button type="submit">Register</button>
+                <button type="submit" disabled={loading}> { loading ? "Registering..." : "Register" }</button>
             </form>
             { success && <p style={{ color: "green" }}>Success!</p>}
             { error && <p style={{ color: "red" }}>{error}</p>}
