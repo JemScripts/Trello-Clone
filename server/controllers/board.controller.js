@@ -35,6 +35,9 @@ export const create = async (req, res) => {
             userId: req.user.id,
         });
 
+        console.log("REQ.BODY:", req.body);
+        console.log("REQ.USER:", req.user);
+
         res.status(201).send(board);
 
     } catch (err) {
@@ -49,7 +52,12 @@ export const create = async (req, res) => {
 export const findAll = async (req, res) => {
     const title = req.query.title;
 
+    console.log("User ID:", req.user?.id);
+    console.log("Title:", title);
+
     const condition = { userId: req.user.id, ...(title && { title: { [Op.like]: `%${title}%` } }) }
+
+    console.log("req user: ", req.user);
 
     try {
         const boards = await Board.findAll({ where: condition });

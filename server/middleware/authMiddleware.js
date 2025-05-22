@@ -4,6 +4,7 @@ const JWT_SECRET = process.env.JWT_SECRET;
 
 const verifyToken = (req, res, next) => {
     const token = req.header('Authorization')?.replace('Bearer ', '');
+    if (!token) return res.status(403).send({ message: "No token provided." });
 
     if(!token) {
         return res.status(401).send({ message : 'Access Denied. No token provided. '});

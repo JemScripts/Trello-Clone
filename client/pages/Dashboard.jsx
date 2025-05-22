@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
+import { Sidebar } from "../components/Sidebar.jsx";
 
 export const Dashboard = () => {
+    const [selectedBoardId, setSelectedBoardId] = useState(null);
     const navigate = useNavigate();
     const { user, logout } = useAuth();
 
@@ -15,9 +17,15 @@ export const Dashboard = () => {
     if(!user) return null;
 
     return (
-    <div>
-        <h2>hi {user.username}</h2>
-        <button type="submit" onClick={ logout }>Logout</button>
+    <div className="flex h-screen">
+        <Sidebar onSelectedBoard={setSelectedBoardId} />
+        <main className="flex-1 p-4">
+            {selectedBoardId ? (
+                <h2>Board ID: {selectedBoardId}</h2>
+            ) : (
+                <p>Select a board to view its content</p>
+            )}
+        </main>
     </div>
-    )
-}
+    );
+};

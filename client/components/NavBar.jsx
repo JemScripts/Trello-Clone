@@ -23,7 +23,10 @@ export const NavBar = () => {
 
             <div className="text-sm gap-4 flex">
                 {user ? (
+                    <>
+                    <div className="py-1 px-2 text-shadow-white rounded bg-blue-300">Logged in as {user.username}</div>
                     <Link to="/" className="bg-red-500 text-white font-medium py-1 px-2 rounded hover:bg-red-300 transition duration-150" onClick={logout}>Logout</Link>
+                    </>
                     ) : (
                     <>
                     <Link to="/login" className="bg-blue-500 text-white font-medium py-1 px-2 rounded hover:bg-blue-300 transition duration-150">Login</Link>
