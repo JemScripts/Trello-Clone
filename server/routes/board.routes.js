@@ -10,7 +10,7 @@ export default (app) => {
     router.get("/:id", verifyToken, boards.findOne);
     router.put("/:id", verifyToken, boards.update);
     router.delete("/:id", verifyToken, boards.deleteOne);
-    router.delete("/:id", verifyToken, boards.deleteAll);
+    router.delete("/", verifyToken, boards.deleteAll);
 
     app.use("/api/boards", router);
 }

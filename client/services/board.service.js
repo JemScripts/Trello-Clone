@@ -10,6 +10,8 @@ const http = axios.create({
 
 const getAllBoards = () => http.get("/boards");
 
+const getByBoardId = (boardId) => http.get(`/boards/${boardId}`);
+
 const create = (title, description) => {
     return http.post("/boards/", {
         title,
@@ -17,4 +19,4 @@ const create = (title, description) => {
     });
 };
 
-export default { getAllBoards, create };
+export default { getAllBoards, getByBoardId, create };

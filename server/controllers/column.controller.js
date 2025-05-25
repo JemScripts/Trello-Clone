@@ -1,4 +1,5 @@
 import db from "../index.js";
+import columnModel from "../models/column.model.js";
 
 const Op = db.Sequelize.Op;
 const Column = db.columns;
@@ -79,6 +80,36 @@ export const findOne = async (req, res) => {
 
         res.status(500).send({
             message: err.message || "An error occurred while fetching this column.",
+        });
+    }
+};
+
+export const findByBoardId = async (req, res) => {
+    const boardId = req.params.boardId;
+
+    try {
+        const board = await Board.findOne({
+            where: { id: boardId, userId: req.user.id },
+        });
+
+        if (!board) {
+            return res.status(403).send({ message: "Unauthorised access or board not found."});
+        }
+
+        const columns = await Column.findAll({
+            where: { boardId },
+            order: [['position', 'ASC']],
+            include: {
+                association: Column.associations.cards,
+                order: [['createdAt', 'ASC']],
+            },
+        });
+
+        res.status(200).send(columns);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send({
+            message: err.message || "An error occurred while fetching columns.",
         });
     }
 };

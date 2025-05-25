@@ -8,6 +8,7 @@ export default (app) => {
     router.post("/", verifyToken, columns.create);
     router.get("/", verifyToken, columns.findAll);
     router.get("/:id", verifyToken, columns.findOne);
+    router.get("/board/:boardId", verifyToken, columns.findByBoardId);
     router.put("/:id", verifyToken, columns.update);
     router.delete("/:id", verifyToken, columns.deleteOne);
     router.delete("/:id", verifyToken, columns.deleteAll);
