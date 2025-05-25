@@ -23,8 +23,14 @@ export const Sidebar = ({ onSelectedBoard }) => {
         fetchBoards();
     }, []);
 
-    const handleWindow = () => {
-        
+    const deleteBoard = async (boardId) => {
+        try {
+            await boardService.deleteByBoardId(boardId);
+            fetchBoards();
+        } catch (err) {
+            setError("Couldn't delete board!");
+            console.error(err);
+        }
     }
 
     return (
@@ -54,6 +60,9 @@ export const Sidebar = ({ onSelectedBoard }) => {
                         onClick={() => onSelectedBoard(board.id)}
                     >
                         {board.title}
+                        <button className="bg-red-500 rounded-md h-8 w-8 flex items-center justify-center text-lg text-white hover:bg-red-400 transition duration-150" onClick={(e) => {
+                            e.stopPropagation(); deleteBoard(board.id); 
+                        }}>X</button>
                     </li>
                 ))}
             </ul>
