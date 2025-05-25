@@ -1,6 +1,7 @@
 import db from '../index.js';
 
 const Op = db.Sequelize.Op;
+const Column = db.columns;
 const Board = db.boards;
 
 const findUserBoard = async (id, userId) => {
@@ -35,8 +36,13 @@ export const create = async (req, res) => {
             userId: req.user.id,
         });
 
-        console.log("REQ.BODY:", req.body);
-        console.log("REQ.USER:", req.user);
+        const defaultColumns = [
+            { title: "To Be Completed", position: 1, boardId: board.id },
+            { title: "In Progress", position: 2, boardId: board.id },
+            { title: "Completed", position: 3, boardId: board.id },
+        ];
+
+        await Column.bulkCreate(defaultColumns);
 
         res.status(201).send(board);
 
