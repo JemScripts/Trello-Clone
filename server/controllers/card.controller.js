@@ -51,8 +51,15 @@ export const create = async (req, res) => {
 }
 
 export const findAll = async (req, res) => {
+    const columnId = req.query.columnId;
+
+    if(!columnId) {
+        return res.status(400).send({ message: "columnId is required" });
+    }
+
     try {
         const cards = await Card.findAll({
+            where: { columnId },
             include: {
                 model: Column,
                 include: {

@@ -1,11 +1,4 @@
-import axios from "axios";
-
-const http = axios.create({
-    baseURL: "http://localhost:8080/api",
-    headers: {
-        "Content-Type": "application/json",
-    }
-});
+import http from "./http";
 
 const register = (username, email, password) => {
     return http.post("/users/register", {
@@ -56,13 +49,7 @@ const getUser = () => {
 };
 
 const getProfile = () => {
-    const user = getUser();
-
-    return http.get("/users/me",
-        {
-            headers: { Authorization: `Bearer ${user?.token}`, }
-        }
-    );
+    return http.get("/users/me");
 };
 
 export default { register, login, getProfile, logout, getUser };
